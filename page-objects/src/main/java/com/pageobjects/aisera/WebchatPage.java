@@ -17,33 +17,37 @@ public class WebchatPage extends BasePage {
   // Page URL
   private static String PAGE_URL = "https://static.aisera.com/demo9/acme-itsm/index.html";
 
-  @FindBy(how = How.XPATH, using = "//div[@class='commands-container']//span[contains(@class,'chat-close')]")
+  @FindBy(how = How.XPATH, using = "//div[@class='webchat-header']//div[contains(@class,'chat-close')]")
   private WebElement closeButton;
 
-  @FindBy(how = How.XPATH, using = "//div[@class='commands-container']//span[contains(@class,'flaticon-menu-dots')]")
-  private WebElement menuButton;
+  //@FindBy(how = How.XPATH, using = "//div[@class='commands-container']//span[contains(@class,'flaticon-menu-dots')]")
+  //private WebElement menuButton;
+
+  @FindBy(how = How.XPATH, using = "//div[@class='chat-input-container']//textarea[contains(@class,'chat-input')]")
+  private WebElement inputTextArea;
 
   public WebchatPage(WebDriver driver) {
     super(driver);
 
-    driver.get(PAGE_URL);
-    try {
-      Thread.sleep(500);
-    } catch (InterruptedException e) {
-    }
+    threadSleep(1000);
 
     PageFactory.initElements(driver, this);
 
     assertNotNull(closeButton);
-    assertNotNull(menuButton);
+    //assertNotNull(menuButton);
+    assertNotNull(inputTextArea);
   }
 
   public void clickCloseButton() {
+    highlightElement(getDriver(), inputTextArea, 2);
+
     closeButton.click();
   }
 
   public void clickMenuButton() {
-    menuButton.click();
+    //highlightElement(getDriver(), menuButton, 2);
+
+    //menuButton.click();
   }
 
   public void clickRefreshButton() {
@@ -65,10 +69,12 @@ public class WebchatPage extends BasePage {
   }
 
   public void changeUserName(String userName) {
-    clickProfileButton();
+    //clickProfileButton();
 
     WebElement userNameText = getDriver().findElement(By.xpath("//div[@class='field-editor']//input"));
     assertNotNull(userNameText);
+
+    highlightElement(getDriver(), userNameText, 2);
 
     userNameText.sendKeys(userName);
 
@@ -76,6 +82,22 @@ public class WebchatPage extends BasePage {
     assertNotNull(continueButton);
 
     continueButton.click();
+  }
+
+  public void sendUtterance(String text) {
+    highlightElement(getDriver(), inputTextArea, 2);
+
+    inputTextArea.sendKeys(text);
+
+    inputTextArea.sendKeys("\n");
+    threadSleep(500);
+  }
+
+  public void waitForResponse(String xpathLocator) throws Exception {
+    int timeoutSec = 30;
+
+    highlightElement(driver, By.xpath(xpathLocator), timeoutSec);
+    waitUntilElementIsVisible(driver, By.xpath(xpathLocator), timeoutSec);
   }
 }
 

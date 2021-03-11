@@ -8,6 +8,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.fail;
 
 public class HomePageTests extends BaseTest {
 
@@ -18,14 +19,18 @@ public class HomePageTests extends BaseTest {
 
   @Test(groups = {"google"})
   public void homePageTests() {
-    HomePage homePage = new HomePage(getDriver());
+    try {
+      HomePage homePage = new HomePage(getDriver());
 
-    AboutPage aboutPage = homePage.clickAboutButton();
-    assertNotNull(aboutPage);
+      AboutPage aboutPage = homePage.clickAboutButton();
+      assertNotNull(aboutPage);
 
-    homePage = new HomePage(getDriver());
+      homePage = new HomePage(getDriver());
 
-    StorePage storePage = homePage.clickStoreButton();
-    assertNotNull(storePage);
+      StorePage storePage = homePage.clickStoreButton();
+      assertNotNull(storePage);
+    } catch (Exception e) {
+      fail();
+    }
   }
 }

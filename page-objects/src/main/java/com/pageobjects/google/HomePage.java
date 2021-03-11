@@ -22,20 +22,21 @@ public class HomePage extends BasePage {
     super(driver);
 
     driver.get(PAGE_URL);
-    try {
-      Thread.sleep(500);
-    } catch (InterruptedException e) {
-    }
+    threadSleep(500);
 
     PageFactory.initElements(driver, this);
   }
 
-  public AboutPage clickAboutButton() {
+  public AboutPage clickAboutButton() throws Exception {
+    highlightElement(getDriver(), aboutButton, 2);
+
     aboutButton.click();
     return new AboutPage(getDriver());
   }
 
   public StorePage clickStoreButton() {
+    highlightElement(getDriver(), storeButton, 2);
+
     storeButton.click();
     return new StorePage(getDriver());
   }
