@@ -10,18 +10,15 @@ import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertNotNull;
 
-public class HomePageTests extends BaseTest {
-  protected Candidate candidate;
+public class WebchatTests extends BaseTest {
 
   @BeforeClass(alwaysRun = true)
   private void setup() {
     System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");
-
-    candidate = CandidateFixture.getCandidate();
   }
 
-  @Test(groups = {"aisera"})
-  public void homePageTest1() {
+  //@Test(groups = {"aisera"})
+  public void webchatTest1() {
     HomePage homePage = new HomePage(getDriver());
 
     WebchatPage webchatPage = homePage.clickChatOpenerButton();
@@ -33,8 +30,8 @@ public class HomePageTests extends BaseTest {
     webchatPage.clickCloseButton();
   }
 
-  @Test(groups = {"aisera"})
-  public void homePageTest2() throws Exception {
+  //@Test(groups = {"aisera"})
+  public void webchatTest2() throws Exception {
     HomePage homePage = new HomePage(getDriver());
 
     WebchatPage webchatPage = homePage.clickChatOpenerButton();

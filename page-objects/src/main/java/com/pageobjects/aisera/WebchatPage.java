@@ -94,7 +94,7 @@ public class WebchatPage extends BasePage {
   }
 
   public void waitForResponse(String xpathLocator) throws Exception {
-    int timeoutSec = 30;
+    int timeoutSec = 10;
 
     highlightElement(driver, By.xpath(xpathLocator), timeoutSec);
     waitUntilElementIsVisible(driver, By.xpath(xpathLocator), timeoutSec);

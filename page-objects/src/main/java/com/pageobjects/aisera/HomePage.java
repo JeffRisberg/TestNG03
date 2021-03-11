@@ -19,10 +19,7 @@ public class HomePage extends BasePage {
     super(driver);
 
     driver.get(PAGE_URL);
-    try {
-      Thread.sleep(500);
-    } catch (InterruptedException e) {
-    }
+    threadSleep(500);
 
     PageFactory.initElements(driver, this);
   }
@@ -35,19 +32,12 @@ public class HomePage extends BasePage {
     WebDriverWait wait = new WebDriverWait(driver, (long)timeout_sec);
     wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frame));
 
-    try {
-      Thread.sleep(500);
-    } catch (InterruptedException e) {
-    }
+    threadSleep(500);
 
     WebElement chatOpenerButton = getDriver().findElement(By.xpath("//div[@class='chat-opener']//child::img[@class='chat-opener-img']"));
     assertNotNull(chatOpenerButton);
 
-    System.out.println(chatOpenerButton);
-    try {
-      Thread.sleep(500);
-    } catch (InterruptedException e) {
-    }
+    threadSleep(500);
 
     chatOpenerButton.click();
 

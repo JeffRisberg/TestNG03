@@ -7,6 +7,8 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 
+import static org.testng.Assert.assertNotNull;
+
 public class HomePage extends BasePage {
 
   // Page URL
@@ -25,6 +27,9 @@ public class HomePage extends BasePage {
     threadSleep(500);
 
     PageFactory.initElements(driver, this);
+
+    assertNotNull(aboutButton);
+    assertNotNull(storeButton);
   }
 
   public AboutPage clickAboutButton() throws Exception {

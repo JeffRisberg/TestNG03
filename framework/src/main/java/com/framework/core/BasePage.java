@@ -3,6 +3,7 @@ package com.framework.core;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -38,6 +39,17 @@ public class BasePage {
     }
 
     assertEquals(currentUrl, url);
+  }
+
+  public void waitForLoad(WebDriver driver, int timeoutSec) {
+    ExpectedCondition<Boolean> pageLoadCondition = new
+            ExpectedCondition<Boolean>() {
+              public Boolean apply(WebDriver driver) {
+                return ((JavascriptExecutor)driver).executeScript("return document.readyState").equals("complete");
+              }
+            };
+    WebDriverWait wait = new WebDriverWait(driver, timeoutSec);
+    wait.until(pageLoadCondition);
   }
 
   public void threadSleep(int mills) {
