@@ -1,14 +1,12 @@
 package com.tests.aisera;
 
-import com.domain.Candidate;
-import com.domain.CandidateFixture;
+import static org.testng.Assert.assertNotNull;
+
 import com.framework.core.BaseTest;
 import com.pageobjects.aisera.HomePage;
 import com.pageobjects.aisera.WebchatPage;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.assertNotNull;
 
 public class WebchatTests extends BaseTest {
 
@@ -17,7 +15,7 @@ public class WebchatTests extends BaseTest {
     System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");
   }
 
-  //@Test(groups = {"aisera"})
+  @Test(groups = {"aisera"})
   public void webchatTest1() {
     HomePage homePage = new HomePage(getDriver());
 
@@ -30,7 +28,7 @@ public class WebchatTests extends BaseTest {
     webchatPage.clickCloseButton();
   }
 
-  //@Test(groups = {"aisera"})
+  @Test(groups = {"aisera"})
   public void webchatTest2() throws Exception {
     HomePage homePage = new HomePage(getDriver());
 

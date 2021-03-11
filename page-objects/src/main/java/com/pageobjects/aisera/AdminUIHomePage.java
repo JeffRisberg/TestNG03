@@ -33,16 +33,40 @@ public class AdminUIHomePage extends BasePage {
 
     assertNotNull(configMenuButton);
     assertNotNull(userMenuButton);
-
-    highlightElement(getDriver(), configMenuButton, 2);
-    highlightElement(getDriver(), userMenuButton, 2);
   }
 
-  public void logout() {
-    // to be filled in
+  public void toggleConfigMenu() {
+    highlightElement(getDriver(), configMenuButton, HIGHLIGHT_DURATION);
+    configMenuButton.click();
+
+    threadSleep(500);
+
+    configMenuButton.click();
   }
 
-  public AdminUIDataSourcesPage toDataSourcesPage() {
-    return null; // to be filled in
+  public void toggleUserMenu() {
+    highlightElement(getDriver(), userMenuButton, HIGHLIGHT_DURATION);
+    userMenuButton.click();
+
+    threadSleep(500);
+
+    userMenuButton.click();
+  }
+
+  public AdminUIDataSourcesPage navToDataSourcesPage() {
+    highlightElement(getDriver(), configMenuButton, HIGHLIGHT_DURATION);
+    configMenuButton.click();
+
+    WebElement dataSourcesButton = getElement(getDriver(), By.xpath("//div[@class='popover-content']//div[contains(text(),'Data Sources')]"), 10);
+
+    assertNotNull(dataSourcesButton);
+
+    highlightElement(getDriver(), dataSourcesButton, HIGHLIGHT_DURATION);
+    dataSourcesButton.click();
+
+    int timeoutSec = 10;
+    waitForLoad(driver, timeoutSec);
+
+    return new AdminUIDataSourcesPage(getDriver());
   }
 }

@@ -1,16 +1,10 @@
 package com.pageobjects.aisera;
 
-import com.framework.core.BasePage;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.How;
-import org.openqa.selenium.support.PageFactory;
-import org.testng.Assert;
-
 import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
+
+import com.framework.core.BasePage;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.*;
 
 public class WebchatPage extends BasePage {
 
@@ -39,13 +33,13 @@ public class WebchatPage extends BasePage {
   }
 
   public void clickCloseButton() {
-    highlightElement(getDriver(), inputTextArea, 2);
+    highlightElement(getDriver(), inputTextArea, HIGHLIGHT_DURATION);
 
     closeButton.click();
   }
 
   public void clickMenuButton() {
-    //highlightElement(getDriver(), menuButton, 2);
+    //highlightElement(getDriver(), menuButton, HIGHLIGHT_DURATION);
 
     //menuButton.click();
   }
@@ -53,7 +47,8 @@ public class WebchatPage extends BasePage {
   public void clickRefreshButton() {
     clickMenuButton();
 
-    WebElement refreshButton = getDriver().findElement(By.xpath("//div[@class='commands-container']//span[@data-tooltip='Refresh']"));
+    WebElement refreshButton =
+        getElement(getDriver(), By.xpath("//div[@class='commands-container']//span[@data-tooltip='Refresh']"), 10);
     assertNotNull(refreshButton);
 
     refreshButton.click();
@@ -62,30 +57,31 @@ public class WebchatPage extends BasePage {
   public void clickProfileButton() {
     clickMenuButton();
 
-    WebElement refreshButton = getDriver().findElement(By.xpath("//div[@class='commands-container']//span[@data-tooltip='Refresh']"));
+    WebElement refreshButton =
+        getElement(getDriver(), By.xpath("//div[@class='commands-container']//span[@data-tooltip='Refresh']"), 10);
     assertNotNull(refreshButton);
 
     refreshButton.click();
   }
 
   public void changeUserName(String userName) {
-    //clickProfileButton();
-
-    WebElement userNameText = getDriver().findElement(By.xpath("//div[@class='field-editor']//input"));
+    WebElement userNameText =
+        getElement(getDriver(), By.xpath("//div[@class='field-editor']//input"), 10);
     assertNotNull(userNameText);
 
-    highlightElement(getDriver(), userNameText, 2);
+    highlightElement(getDriver(), userNameText, HIGHLIGHT_DURATION);
 
     userNameText.sendKeys(userName);
 
-    WebElement continueButton = getDriver().findElement(By.xpath("//button[contains(@class,'continue-btn')]"));
+    WebElement continueButton =
+        getElement(getDriver(), By.xpath("//button[contains(@class,'continue-btn')]"), 10);
     assertNotNull(continueButton);
 
     continueButton.click();
   }
 
   public void sendUtterance(String text) {
-    highlightElement(getDriver(), inputTextArea, 2);
+    highlightElement(getDriver(), inputTextArea, HIGHLIGHT_DURATION);
 
     inputTextArea.sendKeys(text);
 
@@ -96,7 +92,7 @@ public class WebchatPage extends BasePage {
   public void waitForResponse(String xpathLocator) throws Exception {
     int timeoutSec = 10;
 
-    highlightElement(driver, By.xpath(xpathLocator), timeoutSec);
+    highlightElement(driver, By.xpath(xpathLocator), HIGHLIGHT_DURATION, timeoutSec);
     waitUntilElementIsVisible(driver, By.xpath(xpathLocator), timeoutSec);
   }
 }

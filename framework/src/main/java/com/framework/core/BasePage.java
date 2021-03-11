@@ -15,6 +15,7 @@ public class BasePage {
   private static final int TIMEOUT = 5; // seconds
   private static final int POLLING = 100; // milliseconds
 
+  protected static final int HIGHLIGHT_DURATION = 2; // seconds
   protected WebDriver driver;
   private WebDriverWait wait;
 
@@ -79,7 +80,7 @@ public class BasePage {
     }
   }
 
-  private WebElement getElement(WebDriver driver, By locator, int timeoutSec) throws Exception {
+  public WebElement getElement(WebDriver driver, By locator, int timeoutSec) {
     WebDriverWait wait = new WebDriverWait(driver, timeoutSec);
     wait.ignoring(NoSuchElementException.class).ignoring(StaleElementReferenceException.class);
 
@@ -88,7 +89,7 @@ public class BasePage {
     return driver.findElement(locator);
   }
 
-  private List<WebElement> getElements(WebDriver driver, By locator, int timeoutSec) throws Exception {
+  public List<WebElement> getElements(WebDriver driver, By locator, int timeoutSec) {
     WebDriverWait wait = new WebDriverWait(driver, timeoutSec);
     wait.ignoring(NoSuchElementException.class).ignoring(StaleElementReferenceException.class);
 
@@ -103,12 +104,12 @@ public class BasePage {
     wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
   }
 
-  public boolean highlightElement(WebDriver driver, WebElement element, int timeoutSec) {
+  public boolean highlightElement(WebDriver driver, WebElement element, int highlightDuration) {
     if (Boolean.parseBoolean(System.getProperties().getProperty("headless"))) {
       return true;
     }
 
-    WebDriverWait wait = new WebDriverWait(driver, timeoutSec);
+    WebDriverWait wait = new WebDriverWait(driver, highlightDuration);
     wait.ignoring(NoSuchElementException.class).ignoring(StaleElementReferenceException.class);
     wait.until(ExpectedConditions.visibilityOf(element));
 
@@ -122,11 +123,11 @@ public class BasePage {
     return true;
   }
 
-  public boolean highlightElement(WebDriver driver, By locator, int timeoutSec) {
+  public boolean highlightElement(WebDriver driver, By locator,int highlightDuration, int timeoutSec) {
     try {
       WebElement webElement = getElement(driver, locator, timeoutSec);
 
-      return highlightElement(driver, webElement, timeoutSec);
+      return highlightElement(driver, webElement, highlightDuration);
     } catch (Exception e) {
       return false;
     }

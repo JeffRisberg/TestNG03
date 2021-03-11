@@ -1,14 +1,12 @@
 package com.pageobjects.aisera;
 
+import static org.testng.Assert.assertNotNull;
+
 import com.framework.core.BasePage;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
-import static org.testng.Assert.assertNotNull;
 
 public class HomePage extends BasePage {
 
@@ -25,7 +23,7 @@ public class HomePage extends BasePage {
   }
 
   public WebchatPage clickChatOpenerButton() {
-    WebElement frame = getDriver().findElement(By.xpath("//iframe[@id='aisera-webchat']"));
+    WebElement frame = getElement(getDriver(), By.xpath("//iframe[@id='aisera-webchat']"), 10);
     assertNotNull(frame);
 
     long timeout_sec = 20;
@@ -34,7 +32,8 @@ public class HomePage extends BasePage {
 
     threadSleep(500);
 
-    WebElement chatOpenerButton = getDriver().findElement(By.xpath("//div[@class='chat-opener']//child::img[@class='chat-opener-img']"));
+    WebElement chatOpenerButton =
+        getElement(getDriver(), By.xpath("//div[@class='chat-opener']//child::img[@class='chat-opener-img']"), 10);
     assertNotNull(chatOpenerButton);
 
     threadSleep(500);

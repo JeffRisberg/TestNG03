@@ -1,16 +1,11 @@
 package com.tests.aisera;
 
-import com.domain.Candidate;
-import com.domain.CandidateFixture;
+import static org.testng.Assert.assertNotNull;
+
 import com.framework.core.BaseTest;
-import com.pageobjects.aisera.AdminUIHomePage;
-import com.pageobjects.aisera.AdminUILoginPage;
-import com.pageobjects.aisera.HomePage;
-import com.pageobjects.aisera.WebchatPage;
+import com.pageobjects.aisera.*;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-
-import static org.testng.Assert.assertNotNull;
 
 public class AdminUITests extends BaseTest {
 
@@ -29,6 +24,16 @@ public class AdminUITests extends BaseTest {
 
     assertNotNull(homePage);
 
-    homePage.logout();
+    homePage.toggleConfigMenu();
+    homePage.toggleUserMenu();
+  }
+
+  @Test(groups = {"aisera"})
+  public void homePageTest2() {
+    AdminUIHomePage homePage = new AdminUIHomePage(getDriver());
+
+    assertNotNull(homePage);
+
+    AdminUIDataSourcesPage dataSourcesPage = homePage.navToDataSourcesPage();
   }
 }

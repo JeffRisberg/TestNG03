@@ -1,14 +1,12 @@
 package com.tests.google;
 
-import com.framework.core.BaseTest;
-import com.pageobjects.google.AboutPage;
-import com.pageobjects.google.HomePage;
-import com.pageobjects.google.StorePage;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
-
 import static org.testng.Assert.assertNotNull;
 import static org.testng.Assert.fail;
+
+import com.framework.core.BaseTest;
+import com.pageobjects.google.*;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 public class HomePageTests extends BaseTest {
 

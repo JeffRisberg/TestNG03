@@ -1,13 +1,11 @@
 package com.pageobjects.google;
 
+import static org.testng.Assert.assertNotNull;
+
 import com.framework.core.BasePage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.How;
-import org.openqa.selenium.support.PageFactory;
-
-import static org.testng.Assert.assertNotNull;
+import org.openqa.selenium.support.*;
 
 public class HomePage extends BasePage {
 
@@ -33,14 +31,14 @@ public class HomePage extends BasePage {
   }
 
   public AboutPage clickAboutButton() throws Exception {
-    highlightElement(getDriver(), aboutButton, 2);
+    highlightElement(getDriver(), aboutButton, HIGHLIGHT_DURATION);
 
     aboutButton.click();
     return new AboutPage(getDriver());
   }
 
   public StorePage clickStoreButton() {
-    highlightElement(getDriver(), storeButton, 2);
+    highlightElement(getDriver(), storeButton, HIGHLIGHT_DURATION);
 
     storeButton.click();
     return new StorePage(getDriver());
