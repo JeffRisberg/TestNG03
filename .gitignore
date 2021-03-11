@@ -1,0 +1,16 @@
+.DS_Store
+.gradle
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/names.xml
+.idea/libraries/
+*.iml
+*.class
+*.log
+*.log.*
+out/
+build/
+target/
+test-output
+test-results
+gradle/*.jar
