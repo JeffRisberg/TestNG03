@@ -1,6 +1,7 @@
 package com.pageobjects.aisera;
 
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
 import com.framework.core.BasePage;
 import org.openqa.selenium.*;
@@ -10,16 +11,15 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class HomePage extends BasePage {
 
-  // Page URL
-  private static String PAGE_URL = "https://static.aisera.com/demo9/acme-itsm/index.html";
-
   public HomePage(WebDriver driver) {
     super(driver);
 
-    driver.get(PAGE_URL);
-    threadSleep(500);
+    assertTrue(loadProperties("aisera/homePage"), "cannot load properties");
 
-    PageFactory.initElements(driver, this);
+    String pageUrl = properties.getProperty("HOME_URL");
+
+    driver.get(pageUrl);
+    threadSleep(500);
   }
 
   public WebchatPage clickChatOpenerButton() {

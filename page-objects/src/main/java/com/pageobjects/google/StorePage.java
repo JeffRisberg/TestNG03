@@ -1,19 +1,19 @@
 package com.pageobjects.google;
 
+import static org.testng.Assert.assertTrue;
+
 import com.framework.core.BasePage;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.PageFactory;
 
 public class StorePage extends BasePage {
-
-  // Page URL
-  private static String PAGE_URL = "https://store.google.com/US";
 
   public StorePage(WebDriver driver) {
     super(driver);
 
-    assertCurrentUrl(PAGE_URL);
+    assertTrue(loadProperties("google/storePage"));
 
-    PageFactory.initElements(driver, this);
+    String pageUrl = properties.getProperty("STORE_URL");
+
+    assertCurrentUrl(pageUrl);
   }
 }

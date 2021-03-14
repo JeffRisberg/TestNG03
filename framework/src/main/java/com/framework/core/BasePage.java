@@ -1,5 +1,7 @@
 package com.framework.core;
 
+import java.io.*;
+import java.util.Properties;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
@@ -16,6 +18,7 @@ public class BasePage {
   private static final int POLLING = 100; // milliseconds
 
   protected static final int HIGHLIGHT_DURATION = 2; // seconds
+  protected Properties properties = new Properties();
   protected WebDriver driver;
   private WebDriverWait wait;
 
@@ -29,26 +32,47 @@ public class BasePage {
     return driver;
   }
 
+  public boolean loadProperties(String propertyFilePath) {
+    try {
+      String propertyFileName = propertyFilePath + ".properties";
+
+      InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propertyFileName);
+
+      if (inputStream != null) {
+        properties.load(inputStream);
+      } else {
+        throw new FileNotFoundException(
+            "Property file '" + propertyFileName + "' not found in classpath");
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return true;
+  }
+
   protected void assertCurrentUrl(String url) {
     String currentUrl = driver.getCurrentUrl();
     int questionIndex = currentUrl.indexOf("?");
+
     if (questionIndex > 0) {
       currentUrl = currentUrl.substring(0, questionIndex);
     }
     if (currentUrl.endsWith("/")) {
-      currentUrl = currentUrl.substring(0, currentUrl.length()-1);
+      currentUrl = currentUrl.substring(0, currentUrl.length() - 1);
     }
 
     assertEquals(currentUrl, url);
   }
 
   public void waitForLoad(WebDriver driver, int timeoutSec) {
-    ExpectedCondition<Boolean> pageLoadCondition = new
-            ExpectedCondition<Boolean>() {
-              public Boolean apply(WebDriver driver) {
-                return ((JavascriptExecutor)driver).executeScript("return document.readyState").equals("complete");
-              }
-            };
+    ExpectedCondition<Boolean> pageLoadCondition =
+        new ExpectedCondition<Boolean>() {
+          public Boolean apply(WebDriver driver) {
+            return ((JavascriptExecutor) driver)
+                .executeScript("return document.readyState")
+                .equals("complete");
+          }
+        };
     WebDriverWait wait = new WebDriverWait(driver, timeoutSec);
     wait.until(pageLoadCondition);
   }
@@ -98,7 +122,8 @@ public class BasePage {
     return driver.findElements(locator);
   }
 
-  public void waitUntilElementIsVisible(WebDriver driver, By locator, int timeoutSec) throws Exception {
+  public void waitUntilElementIsVisible(WebDriver driver, By locator, int timeoutSec)
+      throws Exception {
     WebDriverWait wait = new WebDriverWait(driver, timeoutSec);
     wait.ignoring(NoSuchElementException.class).ignoring(StaleElementReferenceException.class);
     wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
@@ -123,7 +148,8 @@ public class BasePage {
     return true;
   }
 
-  public boolean highlightElement(WebDriver driver, By locator,int highlightDuration, int timeoutSec) {
+  public boolean highlightElement(
+      WebDriver driver, By locator, int highlightDuration, int timeoutSec) {
     try {
       WebElement webElement = getElement(driver, locator, timeoutSec);
 
@@ -134,14 +160,14 @@ public class BasePage {
   }
 
   public void scrollToView(WebDriver driver, WebElement webElement) {
-    ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", webElement);
+    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", webElement);
   }
 
   public void scrollToView(WebDriver driver, By locator, int timeoutSec) {
     try {
       WebElement webElement = getElement(driver, locator, timeoutSec);
 
-      ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView();", webElement);
+      ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", webElement);
     } catch (Exception e) {
     }
   }

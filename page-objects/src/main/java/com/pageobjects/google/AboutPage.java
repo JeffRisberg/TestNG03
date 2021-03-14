@@ -1,19 +1,19 @@
 package com.pageobjects.google;
 
+import static org.testng.Assert.assertTrue;
+
 import com.framework.core.BasePage;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.PageFactory;
 
 public class AboutPage extends BasePage {
-
-  // Page URL
-  private static String PAGE_URL = "https://about.google";
 
   public AboutPage(WebDriver driver) {
     super(driver);
 
-    assertCurrentUrl(PAGE_URL);
+    assertTrue(loadProperties("google/aboutPage"));
 
-    PageFactory.initElements(driver, this);
+    String pageUrl = properties.getProperty("ABOUT_URL");
+
+    assertCurrentUrl(pageUrl);
   }
 }

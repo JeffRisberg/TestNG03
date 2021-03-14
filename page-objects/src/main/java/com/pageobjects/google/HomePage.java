@@ -1,33 +1,33 @@
 package com.pageobjects.google;
 
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
 import com.framework.core.BasePage;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.*;
+import org.openqa.selenium.*;
 
 public class HomePage extends BasePage {
 
-  // Page URL
-  private static String PAGE_URL = "https://www.google.com";
-
-  @FindBy(how = How.LINK_TEXT, using = "About")
   private WebElement aboutButton;
-
-  @FindBy(how = How.LINK_TEXT, using = "Store")
   private WebElement storeButton;
 
   public HomePage(WebDriver driver) {
     super(driver);
 
-    driver.get(PAGE_URL);
+    assertTrue(loadProperties("google/homePage"), "cannot load properties");
+
+    String pageUrl = properties.getProperty("HOME_URL");
+
+    driver.get(pageUrl);
     threadSleep(500);
 
-    PageFactory.initElements(driver, this);
+    String aboutLinkLocator = properties.getProperty("HOME_ABOUT_LINK_XPATH");
+    aboutButton = getElement(driver, By.xpath(aboutLinkLocator), 30);
+    assertNotNull(aboutButton, "cannot find About link");
 
-    assertNotNull(aboutButton);
-    assertNotNull(storeButton);
+    String storeLinkLocator = properties.getProperty("HOME_STORE_LINK_XPATH");
+    storeButton = getElement(driver, By.xpath(storeLinkLocator), 30);
+    assertNotNull(storeButton, "cannot find Store link");
   }
 
   public AboutPage clickAboutButton() throws Exception {
