@@ -1,36 +1,38 @@
 package com.pageobjects.aisera;
 
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
 import com.framework.core.BasePage;
 import org.openqa.selenium.*;
-import org.openqa.selenium.support.*;
 
 public class AdminUILoginPage extends BasePage {
 
-  // Page URL
-  private static String PAGE_URL = "https://login.demo9.aws-001-us-west-2.aisera.cloud/?system";
-
-  @FindBy(how = How.XPATH, using = "//form[@class='fields-container']//input[@name='email']")
   private WebElement emailText;
-
-  @FindBy(how = How.XPATH, using = "//form[@class='fields-container']//input[@name='password']")
   private WebElement passwordText;
-
-  @FindBy(how = How.XPATH, using = "//div[@class='login-btn-container']/button")
   private WebElement loginButton;
 
   public AdminUILoginPage(WebDriver driver) {
     super(driver);
 
-    driver.get(PAGE_URL);
+    assertTrue(loadProperties("aisera/uiLoginPage"), "cannot load properties");
+
+    String pageUrl = properties.getProperty("UILOGIN_URL");
+
+    driver.get(pageUrl);
     threadSleep(1000);
 
-    PageFactory.initElements(driver, this);
+    String emailTextLocator = properties.getProperty("UILOGIN_EMAIL_TEXT_XPATH");
+    emailText = getElement(driver, By.xpath(emailTextLocator), 30);
+    assertNotNull(emailText, "cannot find EMail text");
 
-    assertNotNull(emailText);
-    assertNotNull(passwordText);
-    assertNotNull(loginButton);
+    String passwordTextLocator = properties.getProperty("UILOGIN_PASSWORD_TEXT_XPATH");
+    passwordText = getElement(driver, By.xpath(passwordTextLocator), 30);
+    assertNotNull(passwordText, "cannot find Password text");
+
+    String loginButtonLocator = properties.getProperty("UILOGIN_LOGIN_BUTTON_XPATH");
+    loginButton = getElement(driver, By.xpath(loginButtonLocator), 30);
+    assertNotNull(loginButton, "cannot find Login button");
   }
 
   public void typeEmail(String email) {
@@ -54,10 +56,8 @@ public class AdminUILoginPage extends BasePage {
     waitForLoad(driver, timeoutSec);
 
     try {
-      WebElement agreeButton =
-              getElement(getDriver(),
-                  By.xpath("//div[@class='button-container']//button[contains(text(),'I Agree')]"),
-                  timeoutSec);
+      String agreeButtonLocator = properties.getProperty("UILOGIN_AGREE_BUTTON_XPATH");
+      WebElement agreeButton = getElement(getDriver(), By.xpath(agreeButtonLocator), timeoutSec);
 
       if (agreeButton != null) {
         highlightElement(getDriver(), agreeButton, HIGHLIGHT_DURATION);

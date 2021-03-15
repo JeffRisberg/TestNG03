@@ -1,38 +1,39 @@
 package com.pageobjects.aisera;
 
-import com.framework.core.BasePage;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.How;
-import org.openqa.selenium.support.PageFactory;
-
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
+
+import com.framework.core.BasePage;
+import org.openqa.selenium.*;
 
 public class AdminUIHomePage extends BasePage {
 
-  // Page URL
-  private static String PAGE_URL = "https://login.demo9.aws-001-us-west-2.aisera.cloud/?system";
-
-  @FindBy(how = How.XPATH, using = "//div[contains(@class,'pull-right')]//span[contains(@class,'icon-setting')]")
+  // @FindBy(how = How.XPATH, using =
+  // "//div[contains(@class,'pull-right')]//span[contains(@class,'icon-setting')]")
   private WebElement configMenuButton;
 
-  @FindBy(how = How.XPATH, using = "//div[contains(@class,'pull-right')]//span[contains(@class,'icon-profile')]")
+  // @FindBy(how = How.XPATH, using =
+  // "//div[contains(@class,'pull-right')]//span[contains(@class,'icon-profile')]")
   private WebElement userMenuButton;
 
   public AdminUIHomePage(WebDriver driver) {
     super(driver);
 
-    //assertCurrentUrl(PAGE_URL);
+    assertTrue(loadProperties("aisera/uiHomePage"), "cannot load properties");
+
+    String pageUrl = properties.getProperty("UIHOME_URL");
+
+    //assertCurrentUrl(pageUrl);
 
     threadSleep(500);
 
-    PageFactory.initElements(driver, this);
+    String configMenuLocator = properties.getProperty("UIHOME_CONFIG_MENU_XPATH");
+    configMenuButton = getElement(driver, By.xpath(configMenuLocator), 30);
+    assertNotNull(configMenuButton, "cannot find config menu");
 
-    assertNotNull(configMenuButton);
-    assertNotNull(userMenuButton);
+    String userMenuLocator = properties.getProperty("UIHOME_USER_MENU_XPATH");
+    userMenuButton = getElement(driver, By.xpath(userMenuLocator), 30);
+    assertNotNull(userMenuButton, "cannot find user menu");
   }
 
   public void toggleConfigMenu() {
@@ -57,7 +58,11 @@ public class AdminUIHomePage extends BasePage {
     highlightElement(getDriver(), configMenuButton, HIGHLIGHT_DURATION);
     configMenuButton.click();
 
-    WebElement dataSourcesButton = getElement(getDriver(), By.xpath("//div[@class='popover-content']//div[contains(text(),'Data Sources')]"), 10);
+    WebElement dataSourcesButton =
+        getElement(
+            getDriver(),
+            By.xpath("//div[@class='popover-content']//div[contains(text(),'Data Sources')]"),
+            10);
 
     assertNotNull(dataSourcesButton);
 

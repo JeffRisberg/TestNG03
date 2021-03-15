@@ -8,17 +8,8 @@ import org.openqa.selenium.*;
 
 public class WebchatPage extends BasePage {
 
-  // @FindBy(how = How.XPATH, using =
-  // "//div[@class='webchat-header']//div[contains(@class,'chat-close')]")
   private WebElement closeButton;
-
-  // @FindBy(how = How.XPATH, using =
-  // "//div[@class='commands-container']//span[contains(@class,'flaticon-menu-dots')]")
   private WebElement menuButton;
-
-  // @FindBy(how = How.XPATH, using =
-  // "//div[@class='chat-input-container']//textarea[contains(@class,'chat-input')]")
-  private WebElement inputTextArea;
 
   public WebchatPage(WebDriver driver) {
     super(driver);
@@ -27,6 +18,8 @@ public class WebchatPage extends BasePage {
 
     String pageUrl = properties.getProperty("WEBCHAT_URL");
 
+    assertCurrentUrl(pageUrl);
+
     threadSleep(1000);
 
     String closeButtonLocator = properties.getProperty("WEBCHAT_CLOSE_BUTTON_XPATH");
@@ -34,24 +27,20 @@ public class WebchatPage extends BasePage {
     assertNotNull(closeButton, "cannot find Close button");
 
     String menuButtonLocator = properties.getProperty("WEBCHAT_MENU_BUTTON_XPATH");
-    //menuButton = getElement(driver, By.xpath(menuButtonLocator), 30);
+    // menuButton = getElement(driver, By.xpath(menuButtonLocator), 30);
     // assertNotNull(menuButton, "cannot find Menu button");
-
-    String inputTextAreaLocator = properties.getProperty("WEBCHAT_INPUT_TEXTAREA_XPATH");
-    inputTextArea = getElement(driver, By.xpath(inputTextAreaLocator), 30);
-    assertNotNull(inputTextArea, "cannot find Input TextArea");
   }
 
   public void clickCloseButton() {
-    highlightElement(getDriver(), inputTextArea, HIGHLIGHT_DURATION);
+    highlightElement(getDriver(), closeButton, HIGHLIGHT_DURATION);
 
     closeButton.click();
   }
 
   public void clickMenuButton() {
-    // highlightElement(getDriver(), menuButton, HIGHLIGHT_DURATION);
+    highlightElement(getDriver(), menuButton, HIGHLIGHT_DURATION);
 
-    // menuButton.click();
+    menuButton.click();
   }
 
   public void clickRefreshButton() {
@@ -60,6 +49,8 @@ public class WebchatPage extends BasePage {
     String refreshButtonLocator = properties.getProperty("WEBCHAT_REFRESH_BUTTON_XPATH");
     WebElement refreshButton = getElement(getDriver(), By.xpath(refreshButtonLocator), 10);
     assertNotNull(refreshButton);
+
+    highlightElement(getDriver(), refreshButton, HIGHLIGHT_DURATION);
 
     refreshButton.click();
   }
@@ -70,6 +61,8 @@ public class WebchatPage extends BasePage {
     String profileButtonLocator = properties.getProperty("WEBCHAT_PROFILE_BUTTON_XPATH");
     WebElement profileButton = getElement(getDriver(), By.xpath(profileButtonLocator), 10);
     assertNotNull(profileButton);
+
+    highlightElement(getDriver(), profileButton, HIGHLIGHT_DURATION);
 
     profileButton.click();
   }
@@ -87,10 +80,16 @@ public class WebchatPage extends BasePage {
     WebElement continueButton = getElement(getDriver(), By.xpath(continueButtonLocator), 10);
     assertNotNull(continueButton);
 
+    highlightElement(getDriver(), userNameText, HIGHLIGHT_DURATION);
+
     continueButton.click();
   }
 
   public void sendUtterance(String text) {
+    String inputTextAreaLocator = properties.getProperty("WEBCHAT_INPUT_TEXTAREA_XPATH");
+    WebElement inputTextArea = getElement(driver, By.xpath(inputTextAreaLocator), 30);
+    assertNotNull(inputTextArea, "cannot find Input TextArea");
+
     highlightElement(getDriver(), inputTextArea, HIGHLIGHT_DURATION);
 
     inputTextArea.sendKeys(text);
