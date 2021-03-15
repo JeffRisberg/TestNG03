@@ -5,7 +5,6 @@ import static org.testng.Assert.assertTrue;
 
 import com.framework.core.BasePage;
 import org.openqa.selenium.*;
-import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -23,17 +22,18 @@ public class HomePage extends BasePage {
   }
 
   public WebchatPage clickChatOpenerButton() {
-    WebElement frame = getElement(getDriver(), By.xpath("//iframe[@id='aisera-webchat']"), 10);
+    String chatFrameLocator = properties.getProperty("HOME_CHAT_FRAME_XPATH");
+    WebElement frame = getElement(getDriver(), By.xpath(chatFrameLocator), 10);
     assertNotNull(frame);
 
     long timeout_sec = 20;
-    WebDriverWait wait = new WebDriverWait(driver, (long)timeout_sec);
+    WebDriverWait wait = new WebDriverWait(driver, (long) timeout_sec);
     wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(frame));
 
     threadSleep(500);
 
-    WebElement chatOpenerButton =
-        getElement(getDriver(), By.xpath("//div[@class='chat-opener']//child::img[@class='chat-opener-img']"), 10);
+    String chatOpenerButtonLocator = properties.getProperty("HOME_CHAT_OPENER_BUTTON_XPATH");
+    WebElement chatOpenerButton = getElement(getDriver(), By.xpath(chatOpenerButtonLocator), 10);
     assertNotNull(chatOpenerButton);
 
     threadSleep(500);
