@@ -1,15 +1,13 @@
 package com.pageobjects.aisera;
 
 import static org.testng.Assert.assertNotNull;
+import static org.testng.Assert.assertTrue;
 
 import com.framework.core.BasePage;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.*;
 
 public class WebchatPage extends BasePage {
-
-  // Page URL
-  private static String PAGE_URL = "https://static.aisera.com/demo9/acme-itsm/index.html";
 
   @FindBy(how = How.XPATH, using = "//div[@class='webchat-header']//div[contains(@class,'chat-close')]")
   private WebElement closeButton;
@@ -22,6 +20,10 @@ public class WebchatPage extends BasePage {
 
   public WebchatPage(WebDriver driver) {
     super(driver);
+
+    assertTrue(loadProperties("aisera/webchatPage"), "cannot load properties");
+
+    String pageUrl = properties.getProperty("WEBCHAT_URL");
 
     threadSleep(1000);
 
