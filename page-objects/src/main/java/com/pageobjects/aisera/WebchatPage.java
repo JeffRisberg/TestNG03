@@ -5,17 +5,19 @@ import static org.testng.Assert.assertTrue;
 
 import com.framework.core.BasePage;
 import org.openqa.selenium.*;
-import org.openqa.selenium.support.*;
 
 public class WebchatPage extends BasePage {
 
-  @FindBy(how = How.XPATH, using = "//div[@class='webchat-header']//div[contains(@class,'chat-close')]")
+  // @FindBy(how = How.XPATH, using =
+  // "//div[@class='webchat-header']//div[contains(@class,'chat-close')]")
   private WebElement closeButton;
 
-  //@FindBy(how = How.XPATH, using = "//div[@class='commands-container']//span[contains(@class,'flaticon-menu-dots')]")
-  //private WebElement menuButton;
+  // @FindBy(how = How.XPATH, using =
+  // "//div[@class='commands-container']//span[contains(@class,'flaticon-menu-dots')]")
+  private WebElement menuButton;
 
-  @FindBy(how = How.XPATH, using = "//div[@class='chat-input-container']//textarea[contains(@class,'chat-input')]")
+  // @FindBy(how = How.XPATH, using =
+  // "//div[@class='chat-input-container']//textarea[contains(@class,'chat-input')]")
   private WebElement inputTextArea;
 
   public WebchatPage(WebDriver driver) {
@@ -27,11 +29,17 @@ public class WebchatPage extends BasePage {
 
     threadSleep(1000);
 
-    PageFactory.initElements(driver, this);
+    String closeButtonLocator = properties.getProperty("WEBCHAT_CLOSE_BUTTON_XPATH");
+    closeButton = getElement(driver, By.xpath(closeButtonLocator), 30);
+    assertNotNull(closeButton, "cannot find Close button");
 
-    assertNotNull(closeButton);
-    //assertNotNull(menuButton);
-    assertNotNull(inputTextArea);
+    String menuButtonLocator = properties.getProperty("WEBCHAT_MENU_BUTTON_XPATH");
+    //menuButton = getElement(driver, By.xpath(menuButtonLocator), 30);
+    // assertNotNull(menuButton, "cannot find Menu button");
+
+    String inputTextAreaLocator = properties.getProperty("WEBCHAT_INPUT_TEXTAREA_XPATH");
+    inputTextArea = getElement(driver, By.xpath(inputTextAreaLocator), 30);
+    assertNotNull(inputTextArea, "cannot find Input TextArea");
   }
 
   public void clickCloseButton() {
@@ -41,16 +49,16 @@ public class WebchatPage extends BasePage {
   }
 
   public void clickMenuButton() {
-    //highlightElement(getDriver(), menuButton, HIGHLIGHT_DURATION);
+    // highlightElement(getDriver(), menuButton, HIGHLIGHT_DURATION);
 
-    //menuButton.click();
+    // menuButton.click();
   }
 
   public void clickRefreshButton() {
     clickMenuButton();
 
-    WebElement refreshButton =
-        getElement(getDriver(), By.xpath("//div[@class='commands-container']//span[@data-tooltip='Refresh']"), 10);
+    String refreshButtonLocator = properties.getProperty("WEBCHAT_REFRESH_BUTTON_XPATH");
+    WebElement refreshButton = getElement(getDriver(), By.xpath(refreshButtonLocator), 10);
     assertNotNull(refreshButton);
 
     refreshButton.click();
@@ -59,24 +67,24 @@ public class WebchatPage extends BasePage {
   public void clickProfileButton() {
     clickMenuButton();
 
-    WebElement refreshButton =
-        getElement(getDriver(), By.xpath("//div[@class='commands-container']//span[@data-tooltip='Refresh']"), 10);
-    assertNotNull(refreshButton);
+    String profileButtonLocator = properties.getProperty("WEBCHAT_PROFILE_BUTTON_XPATH");
+    WebElement profileButton = getElement(getDriver(), By.xpath(profileButtonLocator), 10);
+    assertNotNull(profileButton);
 
-    refreshButton.click();
+    profileButton.click();
   }
 
   public void changeUserName(String userName) {
-    WebElement userNameText =
-        getElement(getDriver(), By.xpath("//div[@class='field-editor']//input"), 10);
+    String userNameLocator = properties.getProperty("WEBCHAT_USERNAME_XPATH");
+    WebElement userNameText = getElement(getDriver(), By.xpath(userNameLocator), 10);
     assertNotNull(userNameText);
 
     highlightElement(getDriver(), userNameText, HIGHLIGHT_DURATION);
 
     userNameText.sendKeys(userName);
 
-    WebElement continueButton =
-        getElement(getDriver(), By.xpath("//button[contains(@class,'continue-btn')]"), 10);
+    String continueButtonLocator = properties.getProperty("WEBCHAT_CONTINUE_BUTTON_XPATH");
+    WebElement continueButton = getElement(getDriver(), By.xpath(continueButtonLocator), 10);
     assertNotNull(continueButton);
 
     continueButton.click();
@@ -98,4 +106,3 @@ public class WebchatPage extends BasePage {
     waitUntilElementIsVisible(driver, By.xpath(xpathLocator), timeoutSec);
   }
 }
-
