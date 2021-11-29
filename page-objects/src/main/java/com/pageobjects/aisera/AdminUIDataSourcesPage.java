@@ -21,8 +21,8 @@ public class AdminUIDataSourcesPage extends BasePage {
 
     threadSleep(500);
 
-    String emailTextLocator = properties.getProperty("UIDATASOURCES_TICKET_SYSTEMS_XPATH");
-    ticketingSystems = getElement(driver, By.xpath(emailTextLocator), 30);
+    String ticketSystemsLocator = properties.getProperty("UIDATASOURCES_TICKET_SYSTEMS_XPATH");
+    ticketingSystems = getElement(driver, By.xpath(ticketSystemsLocator), 30);
     assertNotNull(ticketingSystems, "cannot find Ticketing Systems text");
 
     highlightElement(getDriver(), ticketingSystems, HIGHLIGHT_DURATION);

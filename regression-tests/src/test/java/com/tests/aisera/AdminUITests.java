@@ -35,5 +35,18 @@ public class AdminUITests extends BaseTest {
     assertNotNull(homePage);
 
     AdminUIDataSourcesPage dataSourcesPage = homePage.navToDataSourcesPage();
+
+    assertNotNull(dataSourcesPage);
+  }
+
+  @Test(groups = {"aisera"}, priority = 3)
+  public void homePageTest3() {
+    AdminUIHomePage homePage = new AdminUIHomePage(getDriver());
+
+    assertNotNull(homePage);
+
+    AdminUIAiseraAppsPage aiseraAppsPage = homePage.navToAiseraAppsPage();
+
+    assertNotNull(aiseraAppsPage);
   }
 }

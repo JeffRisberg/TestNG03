@@ -74,4 +74,25 @@ public class AdminUIHomePage extends BasePage {
 
     return new AdminUIDataSourcesPage(getDriver());
   }
+
+  public AdminUIAiseraAppsPage navToAiseraAppsPage() {
+    highlightElement(getDriver(), configMenuButton, HIGHLIGHT_DURATION);
+    configMenuButton.click();
+
+    WebElement aiseraAppsButton =
+        getElement(
+            getDriver(),
+            By.xpath("//div[@class='popover-content']//div[contains(text(),'Aisera Apps')]"),
+            10);
+
+    assertNotNull(aiseraAppsButton);
+
+    highlightElement(getDriver(), aiseraAppsButton, HIGHLIGHT_DURATION);
+    aiseraAppsButton.click();
+
+    int timeoutSec = 10;
+    waitForLoad(driver, timeoutSec);
+
+    return new AdminUIAiseraAppsPage(getDriver());
+  }
 }
