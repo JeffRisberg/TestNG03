@@ -29,17 +29,6 @@ public class AdminUITests extends BaseTest {
   }
 
   @Test(groups = {"aisera"}, priority = 2)
-  public void homePageTest2() {
-    AdminUIHomePage homePage = new AdminUIHomePage(getDriver());
-
-    assertNotNull(homePage);
-
-    AdminUIDataSourcesPage dataSourcesPage = homePage.navToDataSourcesPage();
-
-    assertNotNull(dataSourcesPage);
-  }
-
-  @Test(groups = {"aisera"}, priority = 3)
   public void homePageTest3() {
     AdminUIHomePage homePage = new AdminUIHomePage(getDriver());
 
@@ -48,5 +37,16 @@ public class AdminUITests extends BaseTest {
     AdminUIAiseraAppsPage aiseraAppsPage = homePage.navToAiseraAppsPage();
 
     assertNotNull(aiseraAppsPage);
+  }
+
+  @Test(groups = {"aisera"}, priority = 3)
+  public void homePageTest2() {
+    AdminUIHomePage homePage = new AdminUIHomePage(getDriver());
+
+    assertNotNull(homePage);
+
+    AdminUIDataSourcesPage dataSourcesPage = homePage.navToDataSourcesPage();
+
+    assertNotNull(dataSourcesPage);
   }
 }

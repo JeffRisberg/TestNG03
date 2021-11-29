@@ -54,36 +54,12 @@ public class AdminUIHomePage extends BasePage {
     userMenuButton.click();
   }
 
-  public AdminUIDataSourcesPage navToDataSourcesPage() {
-    highlightElement(getDriver(), configMenuButton, HIGHLIGHT_DURATION);
-    configMenuButton.click();
-
-    WebElement dataSourcesButton =
-        getElement(
-            getDriver(),
-            By.xpath("//div[@class='popover-content']//div[contains(text(),'Data Sources')]"),
-            10);
-
-    assertNotNull(dataSourcesButton);
-
-    highlightElement(getDriver(), dataSourcesButton, HIGHLIGHT_DURATION);
-    dataSourcesButton.click();
-
-    int timeoutSec = 10;
-    waitForLoad(driver, timeoutSec);
-
-    return new AdminUIDataSourcesPage(getDriver());
-  }
-
   public AdminUIAiseraAppsPage navToAiseraAppsPage() {
     highlightElement(getDriver(), configMenuButton, HIGHLIGHT_DURATION);
     configMenuButton.click();
 
-    WebElement aiseraAppsButton =
-        getElement(
-            getDriver(),
-            By.xpath("//div[@class='popover-content']//div[contains(text(),'Aisera Apps')]"),
-            10);
+    String aiseraAppsButtonLocator = properties.getProperty("UIHOME_CONFIG_AISERA_APPS_XPATH");
+    WebElement aiseraAppsButton = getElement(getDriver(), By.xpath(aiseraAppsButtonLocator),10);
 
     assertNotNull(aiseraAppsButton);
 
@@ -94,5 +70,23 @@ public class AdminUIHomePage extends BasePage {
     waitForLoad(driver, timeoutSec);
 
     return new AdminUIAiseraAppsPage(getDriver());
+  }
+
+  public AdminUIDataSourcesPage navToDataSourcesPage() {
+    highlightElement(getDriver(), configMenuButton, HIGHLIGHT_DURATION);
+    configMenuButton.click();
+
+    String dataSourcesButtonLocator = properties.getProperty("UIHOME_CONFIG_DATA_SOURCES_XPATH");
+    WebElement dataSourcesButton = getElement(getDriver(), By.xpath(dataSourcesButtonLocator),10);
+
+    assertNotNull(dataSourcesButton);
+
+    highlightElement(getDriver(), dataSourcesButton, HIGHLIGHT_DURATION);
+    dataSourcesButton.click();
+
+    int timeoutSec = 10;
+    waitForLoad(driver, timeoutSec);
+
+    return new AdminUIDataSourcesPage(getDriver());
   }
 }
