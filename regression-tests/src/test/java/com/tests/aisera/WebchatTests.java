@@ -15,7 +15,7 @@ public class WebchatTests extends BaseTest {
     System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");
   }
 
-  @Test(groups = {"aisera"})
+  @Test(groups = {"aisera"}, priority = 1)
   public void webchatTest1() {
     HomePage homePage = new HomePage(getDriver());
 
@@ -28,7 +28,7 @@ public class WebchatTests extends BaseTest {
     webchatPage.clickCloseButton();
   }
 
-  @Test(groups = {"aisera"})
+  @Test(groups = {"aisera"}, priority = 2)
   public void webchatTest2() throws Exception {
     HomePage homePage = new HomePage(getDriver());
 

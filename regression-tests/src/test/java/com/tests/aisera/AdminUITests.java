@@ -14,7 +14,7 @@ public class AdminUITests extends BaseTest {
     System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");
   }
 
-  @Test(groups = {"aisera"})
+  @Test(groups = {"aisera"}, priority = 1)
   public void homePageTest1() {
     AdminUILoginPage loginPage = new AdminUILoginPage(getDriver());
 
@@ -28,7 +28,7 @@ public class AdminUITests extends BaseTest {
     homePage.toggleUserMenu();
   }
 
-  @Test(groups = {"aisera"})
+  @Test(groups = {"aisera"}, priority = 2)
   public void homePageTest2() {
     AdminUIHomePage homePage = new AdminUIHomePage(getDriver());
 
