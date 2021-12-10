@@ -1,6 +1,9 @@
 package com.framework.core;
 
+import static org.testng.Assert.assertEquals;
+
 import java.io.*;
+import java.time.Duration;
 import java.util.Properties;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.PageFactory;
@@ -11,20 +14,19 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
-import static org.testng.Assert.assertEquals;
-
 public class BasePage {
   private static final int TIMEOUT = 5; // seconds
   private static final int POLLING = 100; // milliseconds
 
-  protected static final int HIGHLIGHT_DURATION = 2; // seconds
+  protected static final int HIGHLIGHT_DURATION = 1; // seconds
   protected Properties properties = new Properties();
   protected WebDriver driver;
   private WebDriverWait wait;
 
   public BasePage(WebDriver driver) {
     this.driver = driver;
-    wait = new WebDriverWait(driver, TIMEOUT, POLLING);
+    wait = new WebDriverWait(driver, Duration.ofSeconds(TIMEOUT), Duration.ofMillis(POLLING));
+
     PageFactory.initElements(new AjaxElementLocatorFactory(driver, TIMEOUT), this);
   }
 
@@ -73,7 +75,7 @@ public class BasePage {
                 .equals("complete");
           }
         };
-    WebDriverWait wait = new WebDriverWait(driver, timeoutSec);
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeoutSec));
     wait.until(pageLoadCondition);
   }
 
@@ -105,7 +107,7 @@ public class BasePage {
   }
 
   public WebElement getElement(WebDriver driver, By locator, int timeoutSec) {
-    WebDriverWait wait = new WebDriverWait(driver, timeoutSec);
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeoutSec));
     wait.ignoring(NoSuchElementException.class).ignoring(StaleElementReferenceException.class);
 
     wait.until(ExpectedConditions.presenceOfElementLocated(locator));
@@ -113,8 +115,17 @@ public class BasePage {
     return driver.findElement(locator);
   }
 
+  public WebElement getElement(SearchContext searchContext, By locator, int timeoutSec) {
+    SearchContextWait wait = new SearchContextWait(searchContext, timeoutSec);
+    wait.ignoring(NoSuchElementException.class).ignoring(StaleElementReferenceException.class);
+
+    wait.until(SearchContextExpectedConditions.existanceOfElementLocated(locator));
+
+    return searchContext.findElement(locator);
+  }
+
   public List<WebElement> getElements(WebDriver driver, By locator, int timeoutSec) {
-    WebDriverWait wait = new WebDriverWait(driver, timeoutSec);
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeoutSec));
     wait.ignoring(NoSuchElementException.class).ignoring(StaleElementReferenceException.class);
 
     wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
@@ -124,7 +135,8 @@ public class BasePage {
 
   public void waitUntilElementIsVisible(WebDriver driver, By locator, int timeoutSec)
       throws Exception {
-    WebDriverWait wait = new WebDriverWait(driver, timeoutSec);
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(timeoutSec));
+
     wait.ignoring(NoSuchElementException.class).ignoring(StaleElementReferenceException.class);
     wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
   }
@@ -134,14 +146,14 @@ public class BasePage {
       return true;
     }
 
-    WebDriverWait wait = new WebDriverWait(driver, highlightDuration);
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(50));
     wait.ignoring(NoSuchElementException.class).ignoring(StaleElementReferenceException.class);
     wait.until(ExpectedConditions.visibilityOf(element));
 
     JavascriptExecutor jse = (JavascriptExecutor) driver;
     jse.executeScript("arguments[0].setAttribute('style', 'background: yellow');", element);
 
-    setTimeOutForElements(700);
+    setTimeOutForElements(highlightDuration * 1000);
 
     jse.executeScript("arguments[0].setAttribute('style', 'background: solid white');", element);
 
@@ -170,5 +182,9 @@ public class BasePage {
       ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", webElement);
     } catch (Exception e) {
     }
+  }
+
+  public Properties getProperties() {
+    return properties;
   }
 }
