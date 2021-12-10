@@ -8,8 +8,8 @@ import org.openqa.selenium.*;
 
 public class HomePage extends BasePage {
 
-  private WebElement aboutButton;
-  private WebElement storeButton;
+  private final WebElement aboutButton;
+  private final WebElement storeButton;
 
   public HomePage(WebDriver driver) {
     super(driver);

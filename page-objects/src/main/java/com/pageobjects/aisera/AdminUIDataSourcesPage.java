@@ -8,7 +8,7 @@ import org.openqa.selenium.*;
 
 public class AdminUIDataSourcesPage extends BasePage {
 
-  private WebElement ticketingSystems;
+  private final WebElement ticketingSystems;
 
   public AdminUIDataSourcesPage(WebDriver driver) {
     super(driver);

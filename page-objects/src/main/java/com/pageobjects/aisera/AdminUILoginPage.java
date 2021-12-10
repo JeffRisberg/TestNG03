@@ -8,9 +8,9 @@ import org.openqa.selenium.*;
 
 public class AdminUILoginPage extends BasePage {
 
-  private WebElement emailText;
-  private WebElement passwordText;
-  private WebElement loginButton;
+  private final WebElement emailText;
+  private final WebElement passwordText;
+  private final WebElement loginButton;
 
   public AdminUILoginPage(WebDriver driver) {
     super(driver);

@@ -10,11 +10,11 @@ public class AdminUIHomePage extends BasePage {
 
   // @FindBy(how = How.XPATH, using =
   // "//div[contains(@class,'pull-right')]//span[contains(@class,'icon-setting')]")
-  private WebElement configMenuButton;
+  private final WebElement configMenuButton;
 
   // @FindBy(how = How.XPATH, using =
   // "//div[contains(@class,'pull-right')]//span[contains(@class,'icon-profile')]")
-  private WebElement userMenuButton;
+  private final WebElement userMenuButton;
 
   public AdminUIHomePage(WebDriver driver) {
     super(driver);

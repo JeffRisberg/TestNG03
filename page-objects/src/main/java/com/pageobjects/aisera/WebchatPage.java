@@ -8,7 +8,7 @@ import org.openqa.selenium.*;
 
 public class WebchatPage extends BasePage {
 
-  private WebElement closeButton;
+  private final WebElement closeButton;
   private WebElement menuButton;
 
   public WebchatPage(WebDriver driver) {

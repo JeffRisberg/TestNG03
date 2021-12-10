@@ -8,7 +8,7 @@ import org.openqa.selenium.*;
 
 public class AdminUIAiseraAppsPage extends BasePage {
 
-  private WebElement itsmForSNOWApp;
+  private final WebElement itsmForSNOWApp;
 
   public AdminUIAiseraAppsPage(WebDriver driver) {
     super(driver);
